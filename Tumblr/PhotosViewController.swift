@@ -11,6 +11,7 @@ import AlamofireImage
 
 class PhotosViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
+    var count = 0
     
     var posts: [[String: Any]] = []
     
@@ -118,8 +119,6 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if (!isMoreDataLoading) {
-            isMoreDataLoading = true
-            
             // Calculate the position of one screen length before the bottom of the results
             let scrollViewContentHeight = tableView.contentSize.height
             let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
@@ -133,7 +132,6 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
                 loadingMoreView?.frame = frame
                 loadingMoreView!.startAnimating()
 
-                
                 // ... Code to load more results ...
                 loadMoreData()
             }
@@ -146,31 +144,39 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
     func loadMoreData() {
         
         // ... Create the NSURLRequest (myRequest) ...
-        let url = URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV")!
-        let myRequest = URLRequest(url: url)
-        
+        self.count += 20
+        let url = URL(string: "https://api.tumblr.com/v2/blog/humansofnewyork.tumblr.com/posts/photo?api_key=Q6vHoaVm5L1u2ZAW1fqv3Jw48gFzYVg9P0vH0VHl3GVy6quoGV&offset=" + "\(self.count)")!
+        print (url)
         // Configure session so that completion handler is executed on main UI thread
         let session = URLSession(
-            configuration: URLSessionConfiguration.default,
+            configuration: .default,
             delegate:nil,
             delegateQueue:OperationQueue.main
         )
         
-        let task : URLSessionDataTask = session.dataTask(with: myRequest, completionHandler: {(data, response, error) in
+        let task = session.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print(error.localizedDescription)
+            } else if let data = data,
+                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                print(dataDictionary)
+                
+                // TODO: Get the posts and store in posts property
+                let responseDictionary = dataDictionary["response"] as! [String: Any]
+                self.posts = responseDictionary["posts"] as! [[String: Any]]
+                // TODO: Reload the table view
+                self.isMoreDataLoading = false
+                self.loadingMoreView!.stopAnimating()
+                self.tableView.reloadData()
+            }
+        }
                                                                         
-        // Update flag
-        self.isMoreDataLoading = false
-            
-        // Stop the loading indicator
-        self.loadingMoreView!.stopAnimating()
+    
 
                                                                         
         // ... Use the new data to update the data source ...
         
-                                                                        
-        // Reload the tableView now that there is new data
-        self.tableView.reloadData()
-        })
+        
         task.resume()
     }
     
