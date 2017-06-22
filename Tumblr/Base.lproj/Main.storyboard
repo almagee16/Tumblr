@@ -64,7 +64,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" id="JDR-IG-V5v">
-                                <rect key="frame" x="0.0" y="114" width="375" height="375"/>
+                                <rect key="frame" x="0.0" y="114" width="375" height="269"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -72,12 +72,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="zVg-Ah-xtt"/>
                     <connections>
-                        <outlet property="detailPhotoView" destination="JDR-IG-V5v" id="GO0-ci-T0s"/>
+                        <outlet property="detailPhotoView" destination="JDR-IG-V5v" id="ViJ-vf-Q2Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6vu-zB-EkZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1199" y="153"/>
+            <point key="canvasLocation" x="1154.5" y="152.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Hvi-gW-7V0">
