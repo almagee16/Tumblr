@@ -5,20 +5,12 @@ target 'Tumblr' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
-pod 'Alamofire', '~> 4.4'
-pod 'OAuthSwift', '~> 1.1.0'
-pod 'OAuthSwiftAlamofire'
-
-  # Pods for Tumblr
-
-  target 'TumblrTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
-  target 'TumblrUITests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+  # Pods for MyApp
+  # This pulls in the latest version of Alamofire >= 4.4 but less than 5.0.
+  pod 'Alamofire', '~> 4.4'
+  pod 'AlamofireImage', '~> 3.1'
+  # Add additional dependencies
+  pod 'OAuthSwift', '~> 1.1.0'
+  pod 'OAuthSwiftAlamofire'
+  
 end
